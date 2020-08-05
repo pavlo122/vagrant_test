@@ -10,7 +10,7 @@ You also need to have free subnet 192.168.1.0/24(or you need to change all "192.
 ## Getting Started
 In console you should paste these commands:
 
-    git clone github.com/pavlo122/vagrant_test.git
+    git clone https://github.com/pavlo122/vagrant_test.git
     cd vagrant_test
     vagrant up
 
