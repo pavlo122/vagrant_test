@@ -1,0 +1,43 @@
+- hosts: lb
+  tasks:
+  - name: Enable EPEL Repository on CentOS 7
+    yum:
+      name: epel-release
+      state: latest
+    become: True
+    become_method: sudo
+  - name: Install nginx
+    yum:
+      name: nginx
+      state: latest
+    become: yes
+    become_method: sudo
+  - name: install libsemanage-python to perform httpd_can_network_connect
+    yum:
+      name: libsemanage-python
+      state: latest
+    become: yes
+    become_method: sudo
+  - name: Set httpd_can_network_connect for nginx balancing
+    seboolean:
+      name: httpd_can_network_connect
+      state: yes
+      persistent: yes
+    become: yes
+    become_method: sudo
+  - name: Copy file with owner and permissions
+    copy:
+      src: lb.conf
+      dest: /etc/nginx/conf.d/lb.conf
+      owner: root
+      group: root
+      mode: '0644'
+    become: yes
+    become_method: sudo
+  - name: make sure nginx is running
+    service:
+      name: nginx
+      state: started
+      enabled: yes
+    become: yes
+    become_method: sudo

@@ -1,0 +1,37 @@
+- hosts: app_node*
+  tasks:
+  - name: Install netcat
+    yum:
+      name: nc
+      state: latest
+    become: yes
+    become_method: sudo
+  - name: bash_httpd create service
+    copy:
+      src: bash_httpd.service
+      dest: /usr/lib/systemd/system/bash_httpd.service
+      owner: root
+      group: root
+      mode: '0644'
+    become: yes
+    become_method: sudo
+  - name: add sh file
+    copy:
+      src: server.sh
+      dest: /home/vagrant/server.sh
+      owner: vagrant
+      group: vagrant
+      mode: '0664'
+    become: yes
+    become_method: sudo
+  - name: reload systemctl
+    command: systemctl daemon-reload
+    become: yes
+    become_method: sudo
+  - name: bash_httpd start and enable
+    service:
+      name: bash_httpd
+      state: started
+      enabled: yes
+    become: yes
+    become_method: sudo

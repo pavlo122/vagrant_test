@@ -1,0 +1,13 @@
+[Unit]
+Description=The simpliest webserver
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /home/vagrant/server.sh
+KillMode=process
+Restart=on-failure
+RestartSec=1s
+
+[Install]
+WantedBy=multi-user.target
