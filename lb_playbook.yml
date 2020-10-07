@@ -35,7 +35,7 @@
     become: yes
     become_method: sudo
   - name: make sure nginx is running
-    service:
+    systemd:
       name: nginx
       state: started
       enabled: yes

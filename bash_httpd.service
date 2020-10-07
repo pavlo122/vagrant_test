@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/nc -l -p 8000 -c '/usr/bin/echo -e "HTTP/1.1 200 OK\n\n$(/usr/bin/hostname)"' -k
+ExecStart=/usr/bin/nc -l -p 8000 -e "/usr/bin/printf HTTP/1.1\ 200\ OK\\\r\\\n\\\r\\\n{{ inventory_hostname }}\\\r\\\n" -k
 KillMode=process
 Restart=on-failure
 RestartSec=1s

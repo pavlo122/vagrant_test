@@ -7,7 +7,7 @@
     become: yes
     become_method: sudo
   - name: bash_httpd create service
-    copy:
+    template:
       src: bash_httpd.service
       dest: /usr/lib/systemd/system/bash_httpd.service
       owner: root
@@ -15,21 +15,13 @@
       mode: '0644'
     become: yes
     become_method: sudo
-  - name: add sh file
-    copy:
-      src: server.sh
-      dest: /home/vagrant/server.sh
-      owner: vagrant
-      group: vagrant
-      mode: '0664'
-    become: yes
-    become_method: sudo
   - name: reload systemctl
-    command: systemctl daemon-reload
+    systemd:
+      daemon_reload: yes
     become: yes
     become_method: sudo
   - name: bash_httpd start and enable
-    service:
+    systemd:
       name: bash_httpd
       state: started
       enabled: yes
